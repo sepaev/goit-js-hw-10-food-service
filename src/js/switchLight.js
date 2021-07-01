@@ -1,11 +1,16 @@
 import { refs } from './refs';
+const Theme = {
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
+};
+
 let actions = changeActions(false);
 
 function changeActions(makeDark) {
     return makeDark ?
-        { toAdd: 'dark-theme', toRemove: 'light-theme', toggle: true }
+        { toAdd: Theme.DARK, toRemove: Theme.LIGHT, toggle: true }
         :
-        { toAdd: 'light-theme', toRemove: 'dark-theme', toggle: false };
+        { toAdd: Theme.LIGHT, toRemove: Theme.DARK, toggle: false };
 }
 
 function addAndRemoveClass({ toAdd, toRemove, toggle }) {
@@ -16,7 +21,7 @@ function addAndRemoveClass({ toAdd, toRemove, toggle }) {
 }
 
 const switchTheme = () => {
-    actions = changeActions(refs.body.classList.contains('light-theme'));
+    actions = changeActions(refs.body.classList.contains(Theme.LIGHT));
     addAndRemoveClass(actions);
 
 }
@@ -29,7 +34,7 @@ function onLoad(currentTheme) {
         localStorage.setItem("currentTheme", actions.toAdd);
         return;
     }
-    actions = changeActions(currentTheme !== 'light-theme');
+    actions = changeActions(currentTheme !== Theme.LIGHT);
     addAndRemoveClass(actions);
 }
 
